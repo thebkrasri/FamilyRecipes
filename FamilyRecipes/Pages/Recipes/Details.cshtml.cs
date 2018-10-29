@@ -19,6 +19,8 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         public Recipe Recipe { get; set; }
+        public Ingredient Ingredient { get; set; }
+        public Step Step { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

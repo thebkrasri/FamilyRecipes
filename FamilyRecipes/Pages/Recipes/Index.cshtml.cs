@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FamilyRecipes.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FamilyRecipes.Pages.Recipes
 {
@@ -19,10 +20,33 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         public IList<Recipe> Recipe { get;set; }
+        public string SearchString { get; set; }
+        public SelectList Types { get; set; }
+        public string RecipeType { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string recipeType, string searchString)
         {
-            Recipe = await _context.Recipe.ToListAsync();
+            // Use LINQ to get list of genres.
+            IQueryable<string> typeQuery = from m in _context.Recipe
+                                            orderby m.Type
+                                            select m.Type;
+
+            var recipes = from m in _context.Recipe
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                recipes = recipes.Where(s => s.Name.ToLower().Contains(searchString.ToLower()) || s.CreatedBy.ToLower().Contains(searchString.ToLower()));
+            }
+
+            if (!String.IsNullOrEmpty(recipeType))
+            {
+                recipes = recipes.Where(x => x.Type == recipeType);
+            }
+
+            Types = new SelectList(await typeQuery.Distinct().ToListAsync());
+            Recipe = await recipes.ToListAsync();
+            SearchString = searchString;
         }
     }
 }

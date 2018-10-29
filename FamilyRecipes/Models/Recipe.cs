@@ -19,6 +19,7 @@ namespace FamilyRecipes.Models
         public string Type { get; set; }
 
         [Display(Name = "Date Added")]
+        [DataType(DataType.Date)]
         [Required]
         public DateTime CreatedDate { get; set; }
 
