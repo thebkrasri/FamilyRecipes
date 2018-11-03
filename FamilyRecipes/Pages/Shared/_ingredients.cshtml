@@ -1,0 +1,70 @@
+﻿<!-- _CustomerList.cshtml -->
+@using FamilyRecipes.Models
+@model List<Ingredient>
+<div class="card mt-5">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4>
+                    Ingredients
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.Count == 0)
+    {
+        <div class="row justify-content-center text-center">
+            <div class="col-12 col-md-10 mt-5">
+                <i class="fa fa-user fa-5x mb-5"></i>
+                <h2>
+                    No Ingredients
+                </h2>
+
+                <a class="btn btn-lg btn-primary d-none d-md-inline-block mt-3" href="#">Add Ingredient</a>
+            </div>
+        </div> <!-- / .row -->
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Unit)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.EditorFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => item.Unit)
+                </td>
+                <td>
+                    <a asp-page="./Edit"
+                       asp-page-handler="Delete" asp-route-id="@item.IngredientID">Delete</a>
+                </td>
+            </tr>
+    }
+
+
+        </tbody>
+    </table>
+
+}
+    </div>
+</div>

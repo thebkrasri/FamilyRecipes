@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using FamilyRecipes.Models;
 
 namespace FamilyRecipes.Pages.Recipes
@@ -26,6 +27,10 @@ namespace FamilyRecipes.Pages.Recipes
         [BindProperty]
         public Recipe Recipe { get; set; }
 
+        [BindProperty]
+        public IList<Ingredient> Ingredients { get; set; }
+
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -34,6 +39,20 @@ namespace FamilyRecipes.Pages.Recipes
             }
 
             _context.Recipe.Add(Recipe);
+
+            await _context.SaveChangesAsync();
+            int id = Recipe.RecipeID;
+
+            int i = 0;
+            while (i < Ingredients.Count)
+            {
+                Ingredients[i].RecipeID = id;
+                _context.Ingredient.Add(Ingredients[i]);
+                i = i + 1;
+            }
+            
+
+
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

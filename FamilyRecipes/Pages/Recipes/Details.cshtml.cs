@@ -19,8 +19,8 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         public Recipe Recipe { get; set; }
-        public Ingredient Ingredient { get; set; }
-        public Step Step { get; set; }
+        public IList<Ingredient> Ingredients { get; set; }
+        public IList<Step> Steps { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,8 +28,13 @@ namespace FamilyRecipes.Pages.Recipes
             {
                 return NotFound();
             }
+            var ingredients = from m in _context.Ingredient
+                          select m;
 
             Recipe = await _context.Recipe.FirstOrDefaultAsync(m => m.RecipeID == id);
+            ingredients = ingredients.Where(x => x.RecipeID == id);
+
+            Ingredients = await ingredients.ToListAsync();
 
             if (Recipe == null)
             {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FamilyRecipes.Models;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace FamilyRecipes.Pages.Recipes
 {
@@ -22,6 +23,9 @@ namespace FamilyRecipes.Pages.Recipes
         [BindProperty]
         public Recipe Recipe { get; set; }
 
+        [BindProperty]
+        public IList<Ingredient> Ingredients { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -29,13 +33,33 @@ namespace FamilyRecipes.Pages.Recipes
                 return NotFound();
             }
 
-            Recipe = await _context.Recipe.FirstOrDefaultAsync(m => m.RecipeID == id);
+            var ingredients = from m in _context.Ingredient
+                              where m.RecipeID == id
+                              select m;
 
-            if (Recipe == null)
+            Recipe = await _context.Recipe.FirstOrDefaultAsync(m => m.RecipeID == id); 
+
+            Ingredients = await ingredients.ToListAsync();
+
+
+            return Recipe == null ? NotFound() : (IActionResult)Page();
+        }
+
+        [HttpPost]
+        public ActionResult OnGetDelete(int? id)
+        {
+            var recipeID = Recipe.RecipeID;
+
+            if (id != null)
             {
-                return NotFound();
+                var data = (from i in _context.Ingredient
+                            where i.IngredientID == id
+                            select i).SingleOrDefault();
+
+                _context.Remove(data);
+                _context.SaveChanges();
             }
-            return Page();
+            return PartialView("_ingredients", _context.Ingredient);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -45,7 +69,12 @@ namespace FamilyRecipes.Pages.Recipes
                 return Page();
             }
 
+
             _context.Attach(Recipe).State = EntityState.Modified;
+
+
+            _context.Attach(Ingredients).State = EntityState.Modified;
+
 
             try
             {
@@ -70,5 +99,25 @@ namespace FamilyRecipes.Pages.Recipes
         {
             return _context.Recipe.Any(e => e.RecipeID == id);
         }
+
+        public IActionResult Index()
+        {
+            return PartialView("_ingredients", _context.Ingredient);
+        }
+
+        [NonAction]
+        public virtual PartialViewResult PartialView(string viewName, object model)
+        {
+            ViewData.Model = model;
+
+            return new PartialViewResult()
+            {
+                ViewName = viewName,
+                ViewData = ViewData,
+                TempData = TempData
+            };
+        }
+
     }
+
 }

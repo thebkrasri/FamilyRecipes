@@ -9,7 +9,7 @@ namespace FamilyRecipes.Models
     {
         public int RecipeID { get; set; }
 
-        [Display(Name="Recipe")]
+        [Display(Name="Recipe Name")]
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
@@ -31,6 +31,46 @@ namespace FamilyRecipes.Models
         [StringLength(20, MinimumLength = 3)]
         public string CreatedBy { get; set; }
 
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<Step> Steps { get; set; }
+    }
 
+    public class Step
+    {
+        public int StepID { get; set; }
+
+        [Display(Name = "Step #")]
+        [Required]
+        public int StepNum { get; set; }
+
+        [Required]
+        public string Instructions { get; set; }
+
+        public int RecipeID { get; set; }
+
+        public virtual Recipe Recipe { get; set; }
+
+    }
+
+    public class Ingredient
+    {
+        public int IngredientID { get; set; }
+
+        [Display(Name = "Ingredient")]
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Name { get; set; }
+
+        [Required]
+        public double Quantity { get; set; }
+
+        [Required]
+        public string Unit { get; set; }
+
+        public int RecipeID { get; set; }
+
+        public virtual Recipe Recipe { get; set; }
+
+      
     }
 }

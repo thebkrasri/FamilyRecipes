@@ -84,7 +84,7 @@ namespace FamilyRecipes.Migrations
             modelBuilder.Entity("FamilyRecipes.Models.Ingredient", b =>
                 {
                     b.HasOne("FamilyRecipes.Models.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Ingredients")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -92,7 +92,7 @@ namespace FamilyRecipes.Migrations
             modelBuilder.Entity("FamilyRecipes.Models.Step", b =>
                 {
                     b.HasOne("FamilyRecipes.Models.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Steps")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

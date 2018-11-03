@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyRecipes.Migrations
 {
     [DbContext(typeof(RecipeContext))]
-    [Migration("20181029001243_InitialCreate")]
+    [Migration("20181030211406_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,7 @@ namespace FamilyRecipes.Migrations
             modelBuilder.Entity("FamilyRecipes.Models.Ingredient", b =>
                 {
                     b.HasOne("FamilyRecipes.Models.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Ingredients")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -94,7 +94,7 @@ namespace FamilyRecipes.Migrations
             modelBuilder.Entity("FamilyRecipes.Models.Step", b =>
                 {
                     b.HasOne("FamilyRecipes.Models.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Steps")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

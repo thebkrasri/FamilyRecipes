@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FamilyRecipes.Models
 {
-    public class Ingredient
+    public class IngredientOld
     {
         public int IngredientID { get; set; }
 
@@ -24,8 +24,6 @@ namespace FamilyRecipes.Models
 
         public virtual Recipe Recipe { get; set; }
 
-        public Ingredient()
-        {
-        }
+
     }
 }

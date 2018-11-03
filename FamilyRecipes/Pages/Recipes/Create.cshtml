@@ -44,17 +44,17 @@
                     <tr id="tablerow0">
                         <td>
                             <div class="editor-field">
-                                <input class="form-control form-control-sm" name="ingredientName[0]" type="text" value="" required="required" />
+                                <input asp-for="Ingredients[0].Name" class="form-control form-control-sm" />
                             </div>
                         </td>
                         <td>
                             <div class="editor-field">
-                                <input class="form-control form-control-sm" name="quantity[0]" type="text" value="" required="required" />
+                                <input asp-for="Ingredients[0].Quantity" class="form-control form-control-sm" />
                             </div>
                         </td>
                         <td>
                             <div class="editor-field">
-                                <input class="form-control form-control-sm" name="unit[0]" type="text" value="" required="required" />
+                                <input asp-for="Ingredients[0].Unit" class="form-control form-control-sm"/>
                             </div>
                         </td>
 
@@ -84,13 +84,13 @@
 
             $('#addButton').click(function () {
                 $('<tr id="tablerow' + counter + '"><td>' +
-                    '<input class="form-control form-control-sm" name="IngredientName[' + counter + ']" type="text" value="" required="required" />' +
+                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Name" name="Ingredients[' + counter + '].Name" value="" aria-describedby="Ingredients_' + counter + '__Name-error" aria-invalid="false">' +
                     '</td>' +
                     '<td>' +
-                    '<input type="text" class="form-control form-control-sm" name="Quantity[' + counter + ']" value="" required="required" />' +
+                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Quantity" name="Ingredients[' + counter + '].Quantity" value="" aria-describedby="Ingredients_' + counter + '__Quantity-error" aria-invalid="false">' +
                     '</td>' +
                     '<td>' +
-                    '<input type="text" class="form-control form-control-sm" name="Unit[' + counter + ']" value="" required="required" />' +
+                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Unit" name="Ingredients[' + counter + '].Unit" value="" aria-describedby="Ingredients_' + counter + '__Unit-error" aria-invalid="false">' +
                     '</td>' +
                     '</tr>').appendTo('#ingredientTable');
                 counter++;
