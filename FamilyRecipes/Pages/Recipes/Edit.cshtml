@@ -30,69 +30,28 @@
                 <span asp-validation-for="Recipe.CreatedBy" class="text-danger"></span>
             </div>
 
-            @using FamilyRecipes.Models
-            @{
+                @using FamilyRecipes.Models
+                @{
         ViewBag.Title = "Ingredients";
-            }
+                }
 
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div id="IngredientList">
-                            <partial name="../Shared/_ingredients.cshtml" model="Model.Ingredients" />
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div id="IngredientList">
+                                <partial name="../Shared/_ingredients.cshtml" model="Model.Ingredients" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            @*<table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Ingredients[0].Name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Ingredients[0].Quantity)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Ingredients[0].Unit)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Ingredients)
-            {
-                        <tr>
-                            <td>
-                                @Html.EditorFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.Quantity)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.Unit)
-                            </td>
-                            <td>
-                                <a asp-page="./Edit"
-                                   asp-page-handler="Delete" asp-route-id="@item.IngredientID">Delete</a>
-                            </td>
-                        </tr>
-        }
+           
+                <hr />
 
-
-                        </tbody>
-                    </table>*@
-
-
-            <input id="addButton" type="submit" class="btn btn-default btn-sm pull-right" value="New Ingredient" />
-
-            <br />
-            <hr />
-
-            <div class="form-group">
-                <input type="submit" value="Submit Recipe" class="btn btn-primary pull-right" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <input type="submit" value="Update Recipe" class="btn btn-primary pull-left" />
+                </div>
+</form>
     </div>
 </div>
 
@@ -100,26 +59,30 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/bundles/jqueryval"></script>
     <script type="text/javascript">
-        var counter = 1;
+        var counter = '@Model.Ingredients.Count()';
         $(function () {
 
             $('#addButton').click(function () {
-                $('<tr id="tablerow' + counter + '"><td><div class="form-group">' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Name" name="Ingredients[' + counter + '].Name" value="" aria-describedby="Ingredients_' + counter + '__Name-error" aria-invalid="false">' +
-                    '<span class="text-danger field-validation-valid" data-valmsg-for="Ingredients[' + counter + '].Name" data-valmsg-replace="true"></span>'
-                    '</div></td>' +
-                    '<td><div class="form-group">' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Quantity" name="Ingredients[' + counter + '].Quantity" value="" aria-describedby="Ingredients_' + counter + '__Quantity-error" aria-invalid="false">' +
-                    '<span class="text-danger field-validation-valid" data-valmsg-for="Ingredients[' + counter + '].Quantity" data-valmsg-replace="true"></span>'
-                    '</div></td>' +
-                    '<td><div class="form-group">' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Unit" name="Ingredients[' + counter + '].Unit" value="" aria-describedby="Ingredients_' + counter + '__Unit-error" aria-invalid="false">' +
-                    '<span class="text-danger field-validation-valid" data-valmsg-for="Ingredients[' + counter + '].Unit" data-valmsg-replace="true"></span>'
-                    '</div></td>' +
-                    '</tr>').appendTo('#ingredientTable');
+                $('<tr id="tablerow' + counter + '"><td>' +
+                    '<input class="form-control form-control-sm valid text-box single-line" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Name" name="[' + counter + '].Name" type="text" >' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control form-control-sm valid text-box single-line" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Quantity" name="[' + counter + '].Quantity" type="text" >' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control form-control-sm valid text-box single-line" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Unit" name="[' + counter + '].Unit" type="text" >' +
+                    '</td>' +
+                    '<td>' +
+                    '<input id="deletebutton" class="btn btn-link" role="link" type="submit" value="Delete" />' +
+                    '</td>' +
+                  '</tr>').appendTo('#ingredientTable');
                 counter++;
                 return false;
             });
+        });
+
+        $('table').on('click', 'input[id="deletebutton"]', function(e){
+           $(this).closest('tr').remove()
         });
 
     </script>

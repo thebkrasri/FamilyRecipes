@@ -48,7 +48,6 @@ namespace FamilyRecipes.Pages.Recipes
         [HttpPost]
         public ActionResult OnGetDelete(int? id)
         {
-            var recipeID = Recipe.RecipeID;
 
             if (id != null)
             {
@@ -59,27 +58,45 @@ namespace FamilyRecipes.Pages.Recipes
                 _context.Remove(data);
                 _context.SaveChanges();
             }
-            return PartialView("_ingredients", _context.Ingredient);
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-
-            _context.Attach(Recipe).State = EntityState.Modified;
-
-
-            _context.Attach(Ingredients).State = EntityState.Modified;
+            int id = Recipe.RecipeID;
+            _context.Attach(Recipe).State = EntityState.Modified;        
 
 
-            try
+            int i = 0;
+            while (i < (Ingredients.Count))
             {
+                Ingredients[i].RecipeID = id;
+                if (IngredientExists(Ingredients[i].IngredientID))
+                {
+                    _context.Attach(Ingredients[i]).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    i = i + 1;
+                }
+                else
+                {
+                    _context.Ingredient.Add(Ingredients[i]);
+                    await _context.SaveChangesAsync();
+                    i = i + 1;
+                }
+               
+            }
+
+            try {
                 await _context.SaveChangesAsync();
             }
+
+
+
             catch (DbUpdateConcurrencyException)
             {
                 if (!RecipeExists(Recipe.RecipeID))
@@ -98,6 +115,11 @@ namespace FamilyRecipes.Pages.Recipes
         private bool RecipeExists(int id)
         {
             return _context.Recipe.Any(e => e.RecipeID == id);
+        }
+
+        private bool IngredientExists(int id)
+        {
+            return _context.Ingredient.Any(e => e.IngredientID == id);
         }
 
         public IActionResult Index()
