@@ -48,5 +48,23 @@ namespace FamilyRecipes.Pages.Recipes
             Recipe = await recipes.ToListAsync();
             SearchString = searchString;
         }
+
+        [HttpPost]
+        public ActionResult OnGetDelete(int? id)
+        {
+
+            if (id != null)
+            {
+                var data = (from i in _context.Recipe
+                            where i.RecipeID == id
+                            select i).SingleOrDefault();
+
+                var Ingredient = _context.Ingredient.Where(x => x.RecipeID == id);
+                _context.Ingredient.RemoveRange(Ingredient);
+                _context.Remove(data);
+                _context.SaveChanges();
+            }
+            return RedirectToPage();
+        }
     }
 }

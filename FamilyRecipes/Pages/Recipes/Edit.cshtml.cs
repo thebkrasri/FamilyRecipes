@@ -46,9 +46,9 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         [HttpPost]
-        public ActionResult OnGetDelete(int? id)
+        public ActionResult OnGetDelete(int? id, int? recipeid)
         {
-
+           
             if (id != null)
             {
                 var data = (from i in _context.Ingredient
@@ -58,7 +58,7 @@ namespace FamilyRecipes.Pages.Recipes
                 _context.Remove(data);
                 _context.SaveChanges();
             }
-            return Page();
+            return RedirectToPage(new{id = recipeid});
         }
 
         public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
