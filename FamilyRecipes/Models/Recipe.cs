@@ -9,7 +9,7 @@ namespace FamilyRecipes.Models
     {
         public int RecipeID { get; set; }
 
-        [Display(Name="Recipe Name")]
+        [Display(Name="Recipe")]
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
@@ -21,6 +21,7 @@ namespace FamilyRecipes.Models
         [Display(Name = "Date Added")]
         [DataType(DataType.Date)]
         [Required]
+        [DisplayFormat(DataFormatString = "{0:d MMM yyyy}")]
         public DateTime CreatedDate { get; set; }
 
         public Recipe(){

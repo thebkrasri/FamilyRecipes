@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FamilyRecipes.Models
 {
-    public class StepOLD
+    public class StepOld
     {
         public int StepID { get; set; }
 

@@ -57,5 +57,6 @@ namespace FamilyRecipes.Pages.Recipes
 
             return RedirectToPage("./Index");
         }
+
     }
 }

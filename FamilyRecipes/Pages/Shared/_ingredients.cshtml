@@ -38,16 +38,16 @@
                         <tr>
                             <td>
                                 @Html.EditorFor(Model => Model[i].Name,
-                                new { htmlAttributes = new { @class = "form-control form-control-sm valid" } })
+         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
                             </td>
                             <td>
                                 @Html.EditorFor(model => model[i].Quantity,
-                                new { htmlAttributes = new { @class = "form-control form-control-sm valid" } })
+         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
                             </td>
                             <td>
                                 @Html.EditorFor(model => model[i].Unit,
-                                new { htmlAttributes = new { @class = "form-control form-control-sm valid" } })
-                            <td>
+         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
+<td>
                                 <a asp-page="./Edit"
                                    asp-page-handler="Delete" asp-route-id="@Model[i].IngredientID" asp-route-recipeid="@Model[i].RecipeID" >Delete</a>
                             </td>

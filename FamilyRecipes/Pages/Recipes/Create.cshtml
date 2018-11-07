@@ -15,17 +15,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Recipe.Name" class="control-label"></label>
-                <input asp-for="Recipe.Name" class="form-control" />
+                <input asp-for="Recipe.Name" class="form-control" onkeyup="this.value = this.value.toTitleCase();"/>
                 <span asp-validation-for="Recipe.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Recipe.Type" class="control-label"></label>
-                <input asp-for="Recipe.Type" class="form-control" />
+                <input asp-for="Recipe.Type" class="form-control" onkeyup="this.value = this.value.toTitleCase();"/>
                 <span asp-validation-for="Recipe.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Recipe.CreatedBy" class="control-label"></label>
-                <input asp-for="Recipe.CreatedBy" class="form-control" />
+                <input asp-for="Recipe.CreatedBy" class="form-control" onkeyup="this.value = this.value.toTitleCase();"/>
                 <span asp-validation-for="Recipe.CreatedBy" class="text-danger"></span>
             </div>
 
@@ -44,17 +44,17 @@
                     <tr id="tablerow0">
                         <td>
                             <div class="editor-field">
-                                <input asp-for="Ingredients[0].Name" class="form-control form-control-sm" />
+                                <input asp-for="Ingredients[0].Name" class="form-control form-control-sm" onkeyup="this.value = this.value.toLowerCase();" />
                             </div>
                         </td>
                         <td>
                             <div class="editor-field">
-                                <input asp-for="Ingredients[0].Quantity" class="form-control form-control-sm" />
+                                <input asp-for="Ingredients[0].Quantity" class="form-control form-control-sm" onkeyup="this.value = this.value.toLowerCase();" />
                             </div>
                         </td>
                         <td>
                             <div class="editor-field">
-                                <input asp-for="Ingredients[0].Unit" class="form-control form-control-sm"/>
+                                <input asp-for="Ingredients[0].Unit" class="form-control form-control-sm" onkeyup="this.value = this.value.toLowerCase();" />
                             </div>
                         </td>
 
@@ -84,19 +84,19 @@
 
             $('#addButton').click(function () {
                 $('<tr id="tablerow' + counter + '"><td>' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Name" name="Ingredients[' + counter + '].Name" value="" aria-describedby="Ingredients_' + counter + '__Name-error" aria-invalid="false">' +
+                    '<input class="form-control form-control-sm valid" onkeyup="this.value = this.value.toLowerCase();" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Name" name="Ingredients[' + counter + '].Name" value="" aria-describedby="Ingredients_' + counter + '__Name-error" aria-invalid="false">' +
                     '</td>' +
                     '<td>' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Quantity" name="Ingredients[' + counter + '].Quantity" value="" aria-describedby="Ingredients_' + counter + '__Quantity-error" aria-invalid="false">' +
+                    '<input class="form-control form-control-sm valid" onkeyup="this.value = this.value.toLowerCase();" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Quantity" name="Ingredients[' + counter + '].Quantity" value="" aria-describedby="Ingredients_' + counter + '__Quantity-error" aria-invalid="false">' +
                     '</td>' +
                     '<td>' +
-                    '<input class="form-control form-control-sm valid" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Unit" name="Ingredients[' + counter + '].Unit" value="" aria-describedby="Ingredients_' + counter + '__Unit-error" aria-invalid="false">' +
+                    '<input class="form-control form-control-sm valid" onkeyup="this.value = this.value.toLowerCase();" type="text" data-val="true" data-val-length="The field Ingredient must be a string with a minimum length of 3 and a maximum length of 50." data-val-length-max="50" data-val-length-min="3" data-val-required="The Ingredient field is required." id="Ingredients_' + counter + '__Unit" name="Ingredients[' + counter + '].Unit" value="" aria-describedby="Ingredients_' + counter + '__Unit-error" aria-invalid="false">' +
                     '</td>' +
                     '</tr>').appendTo('#ingredientTable');
                 counter++;
                 return false;
             });
         });
-
+        
     </script>
 }

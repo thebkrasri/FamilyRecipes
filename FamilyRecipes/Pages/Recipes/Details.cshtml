@@ -5,18 +5,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Recipe</h4>
+<h2>@Html.DisplayFor(model => model.Recipe.Name)</h2>
+<div class="row">
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Recipe.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Recipe.Name)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Recipe.Type)
         </dt>
@@ -36,37 +29,30 @@
             @Html.DisplayFor(model => model.Recipe.CreatedBy)
         </dd>
     </dl>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Ingredients[0].Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Ingredients[0].Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Ingredients[0].Unit)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Ingredients)
+    <div class="col-md-6">
+        <table class="table table-fit">
+            <thead>
+                <tr>
+                    <th>
+                        Ingredients
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Ingredients)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Unit)
+                        @{
+                        var fullIngredient = item.Quantity + " " + item.Unit + " " + item.Name;
+                        @Html.DisplayFor(m => fullIngredient)
+                        }
                     </td>
                 </tr>
-            }   
-        </tbody>
-    </table>
+        }
+            </tbody>
+        </table>
+    </div>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Recipe.RecipeID">Edit</a> |
