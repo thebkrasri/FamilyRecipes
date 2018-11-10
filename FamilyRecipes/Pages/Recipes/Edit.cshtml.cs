@@ -58,7 +58,9 @@ namespace FamilyRecipes.Pages.Recipes
                 _context.Remove(data);
                 _context.SaveChanges();
             }
+
             return RedirectToPage(new{id = recipeid});
+       
         }
 
         public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
