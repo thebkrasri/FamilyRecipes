@@ -50,11 +50,9 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         [HttpPost]
-        public ActionResult OnGetDelete(int? id)
+        public ActionResult OnPostDelete(int id)
         {
 
-            if (id != null)
-            {
                 var data = (from i in _context.Recipe
                             where i.RecipeID == id
                             select i).SingleOrDefault();
@@ -63,8 +61,9 @@ namespace FamilyRecipes.Pages.Recipes
                 _context.Ingredient.RemoveRange(Ingredient);
                 _context.Remove(data);
                 _context.SaveChanges();
-            }
-            return RedirectToPage();
+
+            return new EmptyResult();
+            //return RedirectToPage();
         }
     }
 }
