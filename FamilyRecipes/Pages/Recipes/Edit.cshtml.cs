@@ -46,20 +46,19 @@ namespace FamilyRecipes.Pages.Recipes
         }
 
         [HttpPost]
-        public ActionResult OnGetDelete(int? id, int? recipeid)
+        public ActionResult OnPostDelete(int id)
         {
            
-            if (id != null)
-            {
                 var data = (from i in _context.Ingredient
                             where i.IngredientID == id
                             select i).SingleOrDefault();
 
                 _context.Remove(data);
                 _context.SaveChanges();
-            }
+            
 
-            return RedirectToPage(new{id = recipeid});
+            return new EmptyResult();
+            //return RedirectToPage(new{id = recipeid});
        
         }
 
@@ -69,8 +68,12 @@ namespace FamilyRecipes.Pages.Recipes
             {
                 return Page();
             }
-
+           
             int id = Recipe.RecipeID;
+            if (Recipe.CreatedDate == DateTime.MinValue) {
+                Recipe.CreatedDate = DateTime.UtcNow;
+            }
+
             _context.Attach(Recipe).State = EntityState.Modified;        
 
 

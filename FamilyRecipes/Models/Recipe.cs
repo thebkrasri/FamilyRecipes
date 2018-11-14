@@ -24,16 +24,18 @@ namespace FamilyRecipes.Models
         [DisplayFormat(DataFormatString = "{0:d MMM yyyy}")]
         public DateTime CreatedDate { get; set; }
 
-        public Recipe(){
-            CreatedDate = DateTime.UtcNow;
-        }
+        //public Recipe(){
+
+        //    CreatedDate = DateTime.UtcNow;
+
+        //}
 
         [Display(Name="Added By")]
         [StringLength(20, MinimumLength = 3)]
         public string CreatedBy { get; set; }
 
-        public ICollection<Ingredient> Ingredients { get; set; }
-        public ICollection<Step> Steps { get; set; }
+        public IList<Ingredient> Ingredients { get; set; }
+        public IList<Step> Steps { get; set; }
     }
 
     public class Step

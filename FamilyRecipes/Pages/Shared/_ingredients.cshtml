@@ -3,64 +3,64 @@
 @model List<Ingredient>
 
 
-        <div class="row align-items-center">
-            <div class="col">
-                <h4>
-                    Ingredients
-                </h4>
-            </div>
-        </div>
+<div class="row align-items-center">
+    <div class="col">
+        <h4>
+            Ingredients
+        </h4>
+    </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <table id="ingredientTable" class="table">
-                <thead class="thead-light">
+<div class="row">
+    <div class="col-md-6">
+        <table id="ingredientTable" class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        Ingredient
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Unit
+                    </th>
+                </tr>
+            </thead>
+            @if (Model.Count == 0)
+            {
+                <tr></tr>
+            }
+            else
+            {
+                @for (var i = 0; i < Model.Count; i++)
+                {
                     <tr>
-                        <th>
-                            Ingredient
-                        </th>
-                        <th>
-                            Quantity
-                        </th>
-                        <th>
-                            Unit
-                        </th>
+                                                   
+                        <td>
+                            @Html.EditorFor(Model => Model[i].Name,
+          new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model[i].Quantity,
+          new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model[i].Unit,
+          new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
+                        <td>
+
+                            <a class="Delete" href="javascript:;">Delete</a>
+                            @Html.HiddenFor(model => model[i].IngredientID, new { htmlAttributes = new { @id = "IngredientID" , @name = "IngredientID"} })
+
+                        </td>
+
+
                     </tr>
-                </thead>
-                @if (Model.Count == 0)
-                {
-                        <tr></tr>
                 }
-                else
-                {
-                    @for (var i = 0; i < Model.Count; i++)
-                    {   
-                        <tr>
-                            <td>
-                                @Html.EditorFor(Model => Model[i].Name,
-         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
-                            </td>
-                            <td>
-                                @Html.EditorFor(model => model[i].Quantity,
-         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
-                            </td>
-                            <td>
-                                @Html.EditorFor(model => model[i].Unit,
-         new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
-<td>
-                                <a asp-page="./Edit"
-                                   asp-page-handler="Delete" asp-route-id="@Model[i].IngredientID" asp-route-recipeid="@Model[i].RecipeID" >Delete</a>
-                            </td>
-                            <td>
-                                @Html.HiddenFor(model => model[i].IngredientID)
-                            </td>
+            }
 
-                        </tr>
-                    }
-                }
-
-            </table>
-            <button id="addButton" type="submit" class="btn btn-default pull-right">New Ingredient</button>
-        </div>
-        </div>
-        
+        </table>
+        <button id="addButton" type="submit" class="btn btn-default pull-right">New Ingredient</button>
+    </div>
+</div>

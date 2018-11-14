@@ -50,9 +50,9 @@ namespace FamilyRecipes.Pages.Recipes
                 _context.Ingredient.Add(Ingredients[i]);
                 i = i + 1;
             }
-            
 
 
+            Recipe.CreatedDate = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
