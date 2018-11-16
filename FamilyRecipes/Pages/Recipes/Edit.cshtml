@@ -14,7 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Recipe.RecipeID" id="RecipeID" />
-            <input type="hidden" asp-for="Recipe.CreatedDate" />
+            <input type="hidden" asp-for="Recipe.CreatedDate" id="CreatedDate"/>
             <div class="form-group">
                 <label asp-for="Recipe.Name" class="control-label"></label>
                 <input asp-for="Recipe.Name" class="form-control" onkeyup="this.value = this.value.toTitleCase();" />
@@ -48,7 +48,7 @@
             <hr />
 
             <div class="form-group">
-                <input type="submit" value="Update Recipe" class="btn btn-primary pull-left" id="updateRecipe"/>
+                <button type="submit" class="btn btn-primary pull-left" id="updateButton">Update Recipe</button>
             </div>
         </form>
     </div>
@@ -64,15 +64,15 @@
         var counter = '@Model.Ingredients.Count()';
         $(function () {
             $('#addButton').click(function addRow() {
-                $('<tr id="tablerow' + counter + '"><td>' +
+                $('<tr id="tablerow' + counter + '"><td class="data">' +
                     '<input class="form-control form-control-sm valid text-box single-line" onkeyup="this.value = this.value.toLowerCase();" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Name" name="[' + counter + '].Name" type="text" >' +
                     '<span class="text-danger field-validation-valid" data-valmsg-for="['+ counter + '].Name" data-valmsg-replace="true"></span>' +
                     '</td>' +
-                    '<td>' +
+                    '<td class="data">' +
                     '<input class="form-control form-control-sm valid text-box single-line" onkeyup="this.value = this.value.toLowerCase();" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Quantity" name="[' + counter + '].Quantity" type="text" >' +
                     '<span class="text-danger field-validation-valid" data-valmsg-for="['+ counter + '].Quantity" data-valmsg-replace="true"></span>' +
                     '</td>' +
-                    '<td>' +
+                    '<td class="data">' +
                     '<input class="form-control form-control-sm valid text-box single-line" onkeyup="this.value = this.value.toLowerCase();" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." id="z' + counter + '__Unit" name="[' + counter + '].Unit" type="text" >' +
                     '<span class="text-danger field-validation-valid" data-valmsg-for="['+ counter + '].Unit" data-valmsg-replace="true"></span>' +
                     '</td>' +
@@ -117,6 +117,55 @@
 
             });
         });
+
+          $('#updateButton').click(function () {
+            var RequestHeader = $('input:hidden[name="__RequestVerificationToken"]').val();
+            var ingredientRows = [];
+            var headers = []
+            headers[0] = 'Name';
+            headers[1] = 'Quantity';
+            headers[2] = 'Unit';
+            headers[3] = 'IngredientID';
+            $('#ingredientTable tbody tr').has('td').each(function(index, item) {
+                var arrayItem = {};
+                $('.data', $(this)).each(function(index, item) {
+                    arrayItem[headers[index]] = $(item).find('input').val();
+                });
+                ingredientRows.push(arrayItem);
+            });
+            var RecipeID = document.getElementById("RecipeID").value;
+            var CreatedDate = document.getElementById("CreatedDate").value;
+            var RecipeName = document.getElementById("Recipe_Name").value;
+            var RecipeType = document.getElementById("Recipe_Type").value;
+            var RecipeCreatedBy = document.getElementById("Recipe_CreatedBy").value;
+            var Recipe = {  'RecipeID' : RecipeID,
+                            'CreatedDate' :CreatedDate,
+                            'Name' : RecipeName,
+                            'Type' : RecipeType,
+                            'CreatedBy' : RecipeCreatedBy
+                            };
+
+            $.ajax({
+                //async: false,
+                type: "POST",
+                url: "/Recipes/Edit?handler=Edit",
+                beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", RequestHeader);
+                    },
+                data: {'Recipe' : Recipe,
+                        'Ingredients' : ingredientRows,
+                        '__RequestVerificationToken' : RequestHeader},
+                datatype: 'json',
+                success: function (response) {
+                        window.location = "https://localhost:5001/Recipes/";
+                    },
+                error: function (response) {
+                    alert("error!");  //
+                    }
+                });
+         return false;
+        });
+
 
     </script>
 }

@@ -37,18 +37,18 @@
                 {
                     <tr>
                                                    
-                        <td>
+                        <td class="data">
                             @Html.EditorFor(Model => Model[i].Name,
           new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
                         </td>
-                        <td>
+                        <td class="data">
                             @Html.EditorFor(model => model[i].Quantity,
           new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
                         </td>
-                        <td>
+                        <td class="data">
                             @Html.EditorFor(model => model[i].Unit,
           new { htmlAttributes = new { @class = "form-control form-control-sm valid", @onkeyup = "this.value = this.value.toLowerCase();" } })
-                        <td>
+                        <td class="data">
 
                             <a class="Delete" href="javascript:;">Delete</a>
                             @Html.HiddenFor(model => model[i].IngredientID, new { htmlAttributes = new { @id = "IngredientID" , @name = "IngredientID"} })

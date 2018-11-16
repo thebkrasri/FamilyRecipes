@@ -62,7 +62,9 @@ namespace FamilyRecipes.Pages.Recipes
        
         }
 
-        public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
+        //public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
+        [HttpPost]
+        public ActionResult OnPostEdit(Recipe Recipe, IList<Ingredient> Ingredients)
         {
             if (!ModelState.IsValid)
             {
@@ -84,20 +86,20 @@ namespace FamilyRecipes.Pages.Recipes
                 if (IngredientExists(Ingredients[i].IngredientID))
                 {
                     _context.Attach(Ingredients[i]).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                     i = i + 1;
                 }
                 else
                 {
                     _context.Ingredient.Add(Ingredients[i]);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                     i = i + 1;
                 }
                
             }
 
             try {
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
             }
 
 
@@ -113,8 +115,8 @@ namespace FamilyRecipes.Pages.Recipes
                     throw;
                 }
             }
-
-            return RedirectToPage("./Index");
+            return new EmptyResult();
+            //return RedirectToPage("./Index");
         }
 
         private bool RecipeExists(int id)
