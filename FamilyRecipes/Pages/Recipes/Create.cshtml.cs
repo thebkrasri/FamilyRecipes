@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FamilyRecipes.Models;
+using Newtonsoft.Json;
 
 namespace FamilyRecipes.Pages.Recipes
 {
@@ -31,16 +32,19 @@ namespace FamilyRecipes.Pages.Recipes
         public IList<Ingredient> Ingredients { get; set; }
 
 
-        public async Task<IActionResult> OnPostAsync()
+        //public async Task<IActionResult> OnPostAsync(IList<Ingredient> Ingredients)
+        [HttpPost]
+        public ActionResult OnPostCreate(Recipe Recipe, IList<Ingredient> Ingredients)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            //var ingredients = JsonConvert.DeserializeObject<IList<Ingredient>>(ingredients);
+
 
             _context.Recipe.Add(Recipe);
-
-            await _context.SaveChangesAsync();
+             _context.SaveChangesAsync();
             int id = Recipe.RecipeID;
 
             int i = 0;
@@ -53,9 +57,10 @@ namespace FamilyRecipes.Pages.Recipes
 
 
             Recipe.CreatedDate = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
+             _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return new EmptyResult();
+           
         }
 
     }

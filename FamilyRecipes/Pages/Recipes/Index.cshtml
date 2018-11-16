@@ -47,7 +47,7 @@
         @foreach (var item in Model.Recipe)
         {
             <tr>
-                <td>
+                <td id="recipeName">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
@@ -78,25 +78,29 @@
 <script type="text/javascript">
     //Delete event handler.
     $("body").on("click", ".table .Delete", function () {
-        var id = $(this).parent().find('input:hidden:first').val();
-        var RequestHeader = $('input:hidden[name="__RequestVerificationToken"]').val();
-        var row = $(this).closest('tr');
-        $.ajax({
-        async: false,
-            type: "POST",
-            url:"/Recipes/Index?handler=Delete",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("XSRF-TOKEN", RequestHeader);
-            },
-            data: {"id" : id },
-            success: function (response) {
-                row.remove();
+        var recipeName = $(this).parent().siblings('#recipeName').html();
+        var Name = $.trim(recipeName);
+        if ( confirm("Are you sure you want to delete " + Name + "?")){
+            var id = $(this).parent().find('input:hidden:first').val();
+            var RequestHeader = $('input:hidden[name="__RequestVerificationToken"]').val();
+            var row = $(this).closest('tr');
+            $.ajax({
+            async: false,
+                type: "POST",
+                url:"/Recipes/Index?handler=Delete",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN", RequestHeader);
                 },
-            error: function (response) {
-                alert("Delete Failed!");  //
-            }
+                data: {"id" : id },
+                success: function (response) {
+                    row.remove();
+                    },
+                error: function (response) {
+                    alert("Delete Failed!");  //
+                }
 
-        });
+            });
+        }
     });
 </script>
 }
